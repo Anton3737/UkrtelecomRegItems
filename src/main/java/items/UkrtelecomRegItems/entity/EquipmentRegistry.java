@@ -4,12 +4,16 @@ import items.UkrtelecomRegItems.entity.ContractInfo;
 import items.UkrtelecomRegItems.entity.CpeInfo;
 import items.UkrtelecomRegItems.entity.OntInfo;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "equipment_registry")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EquipmentRegistry {
 
     @Id

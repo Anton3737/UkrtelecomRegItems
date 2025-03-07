@@ -2,7 +2,10 @@ package items.UkrtelecomRegItems.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,42 +13,47 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "contact_info")
+@Table(name = "contract_info")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContractInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false, unique = true)
     private UUID contactInfoId;
 
     // Унікальний ID договору
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "ID договору не повинно бути порожнім")
+    @NotBlank(message = "ID договору не повинно бути порожнім")
     private String contractId;
 
     // Децимальний код підрозділу (Код філії)
-    @NotNull
+
     @Size(min = 6, max = 6)
     @Column(nullable = false)
-    @NotEmpty(message = "Поле департамент повинно бути заповнене")
+    @NotBlank(message = "Поле департамент повинно бути заповнене")
     private String departmentCode;
 
     // 16-розрядний особовий рахунок
-    @NotNull
+
     @Size(min = 16, max = 16)
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "ОР є обов'язковим полем")
+    @NotBlank(message = "ОР є обов'язковим полем")
     private String accountNumber;
 
     // Номер договору з АРМ УС (номер наряду)
-    @NotNull
+
     @Column(nullable = false)
-    @NotEmpty(message = "Поле задача згідно АРМ УС повинно бути заповнене")
+    @NotBlank(message = "Поле задача згідно АРМ УС повинно бути заповнене")
     private String contractNumber;
 
     // Логін договору з АРМ УС
-    @NotNull
+
     @Column(nullable = false, unique = true)
-    @NotEmpty(message = "Логін клієнта згідно наряду")
+    @NotBlank(message = "Логін клієнта згідно наряду")
     private String login;
 
     // Дата формування даних що передаються під час підключення
@@ -53,72 +61,5 @@ public class ContractInfo {
     @Column(nullable = false)
     private LocalDateTime createdData;
 
-    public ContractInfo() {
-    }
 
-    public ContractInfo(UUID contactInfoId, String contractId, String departmentCode, String accountNumber, String contractNumber, String login, LocalDateTime createdData) {
-        this.contactInfoId = contactInfoId;
-        this.contractId = contractId;
-        this.departmentCode = departmentCode;
-        this.accountNumber = accountNumber;
-        this.contractNumber = contractNumber;
-        this.login = login;
-        this.createdData = createdData;
-    }
-
-    public UUID getContactInfoId() {
-        return contactInfoId;
-    }
-
-    public void setContactInfoId(UUID contactInfoId) {
-        this.contactInfoId = contactInfoId;
-    }
-
-    public String getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(String contractId) {
-        this.contractId = contractId;
-    }
-
-    public String getDepartmentCode() {
-        return departmentCode;
-    }
-
-    public void setDepartmentCode(String departmentCode) {
-        this.departmentCode = departmentCode;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public String getContractNumber() {
-        return contractNumber;
-    }
-
-    public void setContractNumber(String contractNumber) {
-        this.contractNumber = contractNumber;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public LocalDateTime getCreatedData() {
-        return createdData;
-    }
-
-    public void setCreatedData(LocalDateTime createdData) {
-        this.createdData = createdData;
-    }
 }
